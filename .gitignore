@@ -1,0 +1,3 @@
+# Exlude some files
+.DS_Store
+

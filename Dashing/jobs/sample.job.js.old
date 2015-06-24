@@ -1,0 +1,66 @@
+// Incluses
+var http = require( 'http' );
+var async = require('async'); 
+
+// Configuration 
+var dbAddress = 'localhost' 
+var dbPort = '8086' 
+var dbName = 'db_test' 
+var dbUser = 'root' 
+var dbPwd = 'testinflux' 
+var itemsToQuery = [ ['Conservatory','Veranda'],
+					 ['SensorTest_1', 'Ficus' ],
+					 ['LivingRoom', 'Salon']
+					 ] 
+					 
+// Variables declaration
+var urls = []
+
+// http://stackoverflow.com/questions/6048504/synchronous-request-in-nodejs 
+for( var i = 0; i < itemsToQuery.length; i++ ) {
+  urls.push( encodeURIComponent(itemsToQuery[i][0] ))
+}
+
+// Map the entire url
+var urls = urls.map(function (url) {
+  return 'http://' + dbAddress + ':' + dbPort + '/db/'+dbName+'/series?u=' + dbUser+'&p='+dbPwd+'&q=SELECT%20*%20FROM%20%22/data/'+ url+'/Humidity%22%20LIMIT%201';
+});
+
+
+// Function to fetch data
+function getData(url, callback) {
+  var data = ""
+  
+  var req = http.request(url, function(res) { 
+    console.log("Response received " + res.statusCode);
+    res.on('data', function(chunk) {
+        data += chunk;
+    });
+    res.on('end', function(e) {
+        console.log(data);
+        callback(e, data);
+    });
+  }).end()
+}
+
+
+setInterval(function() {
+  // Variables declaration
+  var itemarray = []
+  
+  // Asynchronous call to get the data
+  async.map( urls, getData, function( err, result ) {
+    console.log( "The result is :" + result )
+    // Parse results
+    for( var i = 0; i < itemsToQuery.length; i++ ) {
+    	itemarray[i] = {label: itemsToQuery[i][1], value: JSON.parse(result[i])[0]['points'][0][2]}
+    }
+    
+    var datastruct = {
+  items: itemarray,
+  hotnessvalue:5 // Here you set the value of "hotness"
+};
+send_event('serverstatus', datastruct);
+    	
+  })
+}, 2 * 1000);

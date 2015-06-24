@@ -1,0 +1,11 @@
+{
+  "name": "dashing_js",
+  "description": "dashing_js",
+  "author": "<Put your name here>",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "async": "~0.9.0"
+  },
+  "engine": "node >= 0.10"
+}
