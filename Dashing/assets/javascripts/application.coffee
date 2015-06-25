@@ -5,7 +5,7 @@
 #= require_directory .
 #= require_tree ../../widgets
 
-Batman.config.viewPrefix = 'dashing/views'
+# Batman.config.viewPrefix = 'dashing/views'
 
 console.log("Yeah! The dashboard has started!")
 

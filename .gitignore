@@ -1,3 +1,5 @@
 # Exlude some files
 .DS_Store
 
+# Exclude modules install directory
+Dashing/node_modules/
