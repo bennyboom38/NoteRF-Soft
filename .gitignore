@@ -3,3 +3,6 @@
 
 # Exclude modules install directory
 Dashing/node_modules/
+
+# Exclude Node-Red backup files
+NodeRed_Flow/.NoteRF_flow.json.backup
