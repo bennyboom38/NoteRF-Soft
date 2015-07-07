@@ -10,7 +10,7 @@
 # Short-Description:    InfluxDB initialisation
 ### END INIT INFO
 # Can be downloaded and installed in one go by using this command
-# sudo cp /home/pi/NoteRF-Soft/InfluxDB/influxStartupScript.sh /etc/init.d/influxdb && sudo chmod 755 /etc/init.d/influxd && sudo update-rc.d influxd defaults
+# sudo cp /home/pi/NoteRF-Soft/InfluxDB/influxStartupScript.sh /etc/init.d/influxdb && sudo chmod 755 /etc/init.d/influxdb && sudo update-rc.d influxdb defaults
 
 # This runs as the user called pi - please change as you require
 USER=pi
