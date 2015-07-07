@@ -1,16 +1,16 @@
 #! /bin/sh
-# Starts and stops Node-RED
-# /etc/init.d/nodered
+# Starts and stops influxd
+# /etc/init.d/influxd
 ### BEGIN INIT INFO
-# Provides:     node-red
+# Provides:     influxd
 # Required-Start:       $syslog
 # Required-Stop:        $syslog
 # Default-Start:        2 3 4 5
 # Default-Stop:         0 1 6
-# Short-Description:    Node-RED initialisation
+# Short-Description:    InfluxDB initialisation
 ### END INIT INFO
 # Can be downloaded and installed in one go by using this command
-# sudo wget -O /tmp/download https://gist.github.com/bigmonkeyboy/9962293/download && sudo tar -zxf /tmp/download --strip-components 1 -C /etc/init.d && sudo chmod 755 /etc/init.d/nodered && sudo update-rc.d nodered defaults
+# sudo cp /home/pi/NoteRF-Soft/InfluxDB/influxStartupScript.sh /etc/init.d/influxdb && sudo chmod 755 /etc/init.d/influxd && sudo update-rc.d influxd defaults
 
 # This runs as the user called pi - please change as you require
 USER=pi
@@ -18,38 +18,34 @@ USER=pi
 # The log is written to here - please make sure your user has write permissions.
 LOG=/var/log/influxd.log
 
-#Load up node red when called
+#Load up influx when called
 case "$1" in
 
 start)
     if pgrep ^influxd$ > /dev/null
     then
-        echo "Node-RED already running."
+        echo "InfluxDB already running."
     else
-        echo "Starting Node-Red.."
+        echo "Starting InfluxDB.."
         touch $LOG
         chown $USER:$USER $LOG
         echo "" >> $LOG
-        echo "Node-RED service start: "$(date) >> $LOG
-#        su -l $USER -c "cd ~/.node-red && screen -dmS red node-red-pi --max-old-space-size=128"
-# or
-       su -l $USER -c "influxd --config /home/pi/NoteRF-Soft/influxConfig.toml >> $LOG &"
+        echo "Influxd service start: "$(date) >> $LOG
+        su -l $USER -c "influxd --config /home/pi/NoteRF-Soft/InfluxDB/influxConfig.toml >> $LOG &"
         echo "Logging to "$LOG
     fi
 ;;
 
 stop)
-    echo "Stopping Node-Red.."
-#        su -l $USER -c "screen -S red -X quit"
-# or
+    echo "Stopping InfluxDB..."
     pkill -SIGINT ^influxd$
     sleep 2
     echo "" >> $LOG
-    echo "Node-RED service stop: "$(date) >> $LOG
+    echo "InfluxDB service stop: "$(date) >> $LOG
 ;;
 
 restart)
-        echo "Restarting Node-Red.."
+        echo "Restarting InfluxDB..."
         $0 stop
         sleep 2
         $0 start
