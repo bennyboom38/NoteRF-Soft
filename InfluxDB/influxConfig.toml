@@ -70,8 +70,8 @@ reporting-disabled = false
 
 [continuous_queries]
   enabled = true
-  recompute-previous-n = 2
-  recompute-no-older-than = "10m0s"
+  recompute-previous-n = 200
+  recompute-no-older-than = "10h0s"
   compute-runs-per-interval = 10
   compute-no-more-than = "2m0s"
 

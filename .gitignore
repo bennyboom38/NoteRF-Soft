@@ -5,4 +5,7 @@
 Dashing/node_modules/
 
 # Exclude Node-Red backup files
-NodeRed_Flow/.NoteRF_flow.json.backup
+NodeRed_Flow/*.backup
+
+# Exclude Dahing output log
+Dashing/out.log
