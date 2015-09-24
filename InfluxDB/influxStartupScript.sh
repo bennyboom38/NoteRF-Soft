@@ -31,7 +31,7 @@ start)
         chown $USER:$USER $LOG
         echo "" >> $LOG
         echo "Influxd service start: "$(date) >> $LOG
-        su -l $USER -c "influxd --config /home/pi/NoteRF-Soft/InfluxDB/influxConfig.toml >> $LOG &"
+        su -l $USER -c "influxd --config /home/pi/NoteRF-Soft/InfluxDB/influx.config >> $LOG &"
         echo "Logging to "$LOG
     fi
 ;;
