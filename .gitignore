@@ -9,3 +9,6 @@ NodeRed_Flow/*.backup
 
 # Exclude Dahing output log
 Dashing/out.log
+
+# Exclude Node-Red flow
+NoteRF_flow.json
