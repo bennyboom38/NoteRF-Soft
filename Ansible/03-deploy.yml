@@ -1,0 +1,91 @@
+---
+
+- hosts: hosts
+  #gather_facts: no
+  sudo: yes
+  user: pi
+ 
+  tasks:
+  
+  - name : Install Nano Mosquito curl apt-utils git bison sudo 
+    apt: name={{ item }} state=present
+    with_items:
+        - nano
+        - mosquitto
+        - curl
+        - apt-utils
+        - keyboard-configuration
+        - git
+        - bison
+        - libnss-mdns
+        - sudo
+
+  - name: Set timezone variables
+    copy: content='Europe/Paris'
+            dest=/etc/timezone
+            owner=root
+            group=root
+            mode=0644
+            backup=yes
+    notify:
+      - update timezone
+
+  ## Node-Red INSTALL
+ 
+  - name : Prepare Node-Red
+    shell: curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -
+  
+  - name : Install build-essential python-dev python-rpi.gpio nodejs
+    apt: name={{ item }} state=present
+    with_items:
+        - build-essential
+        - python-dev
+        - python-rpi.gpio
+        - nodejs
+
+  - name : Install Node-Red
+    npm: name=node-red global=yes
+
+  - name: Download nodered.service
+    get_url: url=https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/nodered.service dest=/lib/systemd/system/nodered.service mode=0755
+
+  - name: Download node-red-start
+    get_url: url=https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/node-red-start dest=/usr/bin/node-red-start mode=0755
+
+  - name: Download node-red-stop
+    get_url: url=https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/node-red-stop dest=/usr/bin/node-red-stop mode=0755
+
+  - name : Reload daemon
+    shell: systemctl daemon-reload
+
+  - name : Enable NodeRed service
+    shell: systemctl enable nodered.service
+
+  ## GO INSTALL
+
+  - name : install GVM
+    shell: curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash -
+
+  - name : Change GVM rights
+    file: path=/home/pi/.gvm/scripts/gvm mode=0744
+
+  - name : Install go1.4.3
+    shell: source /home/pi/.gvm/scripts/gvm && gvm install go1.4.3
+    args:
+      executable: /bin/bash
+
+  - name : Install go1.5.2
+    shell: source /home/pi/.gvm/scripts/gvm && gvm use go1.4.3 --default && gvm install go1.5.2
+    args:
+      executable: /bin/bash
+
+  - name : Use go1.5.2
+    shell: source /home/pi/.gvm/scripts/gvm && gvm use go1.5.2 && go [file to compile]
+    args:
+      executable: /bin/bash
+
+
+  handlers:
+    - name: update timezone
+      command: dpkg-reconfigure --frontend noninteractive tzdata
+
