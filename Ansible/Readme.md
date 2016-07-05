@@ -12,7 +12,7 @@
 ## First (SSH exchange with RPI)
 `ansible-playbook -c paramiko -i hosts 01-setup.yml --ask-pass --sudo`
 
-**After this you should connect by enter ssh pi@<Raspberry_IP_Address> without password** 
+### **After this you should connect by enter ssh pi@<Raspberry_IP_Address> without password** 
 
 ## Second (upgrade RPI)
 `ansible-playbook -c paramiko -i hosts 02-update.yml --ask-pass --sudo`
