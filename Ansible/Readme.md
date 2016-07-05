@@ -3,7 +3,7 @@
 ## Install Ansible on your machine
 [Installation procedure](http://docs.ansible.com/ansible/intro_installation.html#installation)
 
-## Add your Raspberry IP address into hosts file
+## Add your Raspberry IP address into `hosts` file
 ```
 [hosts]
 <replace by your Raspberry IP>
