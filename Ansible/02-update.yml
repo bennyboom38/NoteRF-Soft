@@ -1,9 +1,22 @@
 ---
+- hosts: hosts
 
-- name: Ansible Playbook for configuring brand new Raspberry Pi
+  tasks:
 
-  hosts: hosts
-  roles:
-    - pi
-  remote_user: pi
-  sudo: yes
+  - name: 'Install python-apt'
+    apt: name=python-apt state=present
+    remote_user: pi
+    sudo: yes
+
+  - name: 'Install vim'
+    apt: name=vim state=present
+
+  - name: 'Update APT package cache'
+    action: apt update_cache=yes
+
+  - name: 'Upgrade APT to the lastest packages'
+    action: apt upgrade=yes
+
+  - name: 'Reboot'
+    command: shutdown -r now
+    ignore_errors: true
