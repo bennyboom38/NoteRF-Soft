@@ -6,7 +6,7 @@
 ## Add your Raspberry IP address into `hosts` file
 ```
 [hosts]
-<alias of your pi ex. "rpi"> ansible_ssh_host=<replace by your Raspberry IP> ansible_ssh_user=pi
+<alias> ansible_ssh_host=<RaspberryPi IP> ansible_ssh_user=pi
 ```
 
 ## First (SSH exchange with RPI)
